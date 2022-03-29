@@ -1,28 +1,30 @@
-from framework.front_controllers import front_controller
-from pages.urls.urls import urlpatterns
+from framework.request import BaseRequest
+from framework.urls import Urls
 
 
 class Framework:
+
+    def __init__(self, urls):
+        self.urls = Urls(urls)
+
     def __call__(self, environ, start_response):
         """
         :param environ: словарь данных от сервера
         :param start_response: функция для ответа серверу
         """
         headers = [("Content-Text", "file/html")]
-        path = environ.get("PATH_INFO")
-        if not path.endswith("/"):
-            path = f"{path}/"
+        request = BaseRequest(environ)
 
-        if path not in urlpatterns.keys():
+        if request.path_info not in self.urls.get_paths():
             code, text = self.not_found_page()
             start_response(code, headers)
             return [text.encode("utf-8")]
 
-        view = urlpatterns.get(path)
-        request = {}
-        front_controller(request, environ)
-        if request.get("is_authorized"):
-            code, text = view(request)
+        view = self.urls.get_view(request)
+
+        if request.is_authorized:
+            code = view.code
+            text = view.render()
         else:
             code = "403 Forbidden"
             text = "no token"

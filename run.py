@@ -1,3 +1,4 @@
 from framework.main import Framework
+from pages.urls import urlpatterns
 
-app = Framework()
+app = Framework(urlpatterns)

@@ -8,6 +8,7 @@ class BaseRequest:
         self.query_params = self._parse_queries(environ.get('QUERY_STRING'))
         self.auth = environ.get("auth")
         self.is_authorized = self._auth_control()
+        self.headers = self._get_headers(environ)
 
     @staticmethod
     def _format_path(path_info):
@@ -29,3 +30,11 @@ class BaseRequest:
         else:
             return False
 
+    def _get_headers(self, environ):
+        headers = {}
+        for key, value in environ.items():
+            if key.startswith("HTTP"):
+                key_name = key[5:].lower()
+                headers[key_name] = value
+
+        return headers

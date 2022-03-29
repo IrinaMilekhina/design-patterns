@@ -1,31 +1,33 @@
-from pages.render import render
+from framework.views import BaseView
 
-
-def index_page(request):
-    context = {
+index_page = BaseView(
+    context={
         "title": "Home page",
         "text": "Welcome to the simple WSGI application",
         "description": "Home text",
-    }
-    code = "200 OK"
-    return code, render("index.html", context=context)
+    },
+    code="200 OK",
+    template_name="index.html"
+)
 
-
-def about_page(request):
-    context = {
+about_page = BaseView(
+    context={
         "title": "About us",
         "text": "About us",
-        "description": "Some text"}
-    code = "200 OK"
-    return code, render("index.html", context=context)
+        "description": "Some text"
+    },
+    code="200 OK",
+    template_name="about.html"
+)
 
-
-def contacts_page(request):
-    context = {
+contacts_page = BaseView(
+    context={
         "title": "Contacts",
         "text": "Our contacts",
         "email": "email@gmail.com",
-        "phone": "+7 906 123-45-67",
-    }
-    code = "200 OK"
-    return code, render("contacts.html", context=context)
+        "phone": "+7 906 123-45-67"
+    },
+    code="200 OK",
+    template_name="contacts.html"
+)
+
