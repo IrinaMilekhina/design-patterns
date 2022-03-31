@@ -101,6 +101,6 @@ BaseView is the class with three requirement arguments:
 
 
 ## auth
-For authorized request add to get request param "auth" with any value.
+For authorized request add to headers param "token" with value '111'.
 
-For example: http://127.0.0.1:8000/about?auth=11
+Not authorized responses returns "no token".
