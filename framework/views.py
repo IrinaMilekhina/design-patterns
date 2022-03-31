@@ -21,4 +21,3 @@ class BaseView:
         with open(path, encoding='utf-8') as f:
             template = Template(f.read())
         return template.render(context=self.context)
-
